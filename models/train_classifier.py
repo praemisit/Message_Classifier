@@ -20,6 +20,9 @@ Example: python train_classifier.py DisasterResponse.db
 ###########################################################
 # Import required libraries
 ###########################################################
+import sys
+import pickle
+
 import numpy as np
 import pandas as pd
 
@@ -166,7 +169,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
      None
     """
     # Predict values based on trained pipeline model
-    y_pred = model.predict(X_test)
+    Y_pred = model.predict(X_test)
 
 
     # Score the results
@@ -181,15 +184,38 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 ###########################################################
+# Function to save the trained model
 ###########################################################
 def save_model(model, model_filepath):
+    """
+    Save the trained model.
+
+    Arguments:
+     1. model - the trained pipeline model
+     2. model_filepath - path where the model will be saved
+
+     Returns:
+     None
+    """
     # save the model to disk
     pickle.dump(model, open(model_filepath, 'wb'))
 
 
 ###########################################################
+# Main function
 ###########################################################
 def main():
+    """
+    Initiates the major training steps up to saving the model
+
+    Arguments:
+    1: File path to the input database
+    2: File path to the trained model
+
+    Returns:
+    None
+    """
+
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
