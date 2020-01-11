@@ -38,13 +38,15 @@ model = joblib.load("../models/DisasterResponseModel.pkl")
 @app.route('/index')
 def index():
     
-    # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
+    # Calculate data for 1st visualization - Example provided by Udacity
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    # Calculate data for a 2nd visualization
+    category_sums = df.iloc[:, 4:].sum()
+    category_names = df.iloc[:,4:].columns.to_list()
+
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
@@ -62,6 +64,24 @@ def index():
                 'xaxis': {
                     'title': "Genre"
                 }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_sums,
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of categories in the data set',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+
+                },
             }
         }
     ]
